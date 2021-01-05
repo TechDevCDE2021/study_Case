@@ -9,6 +9,7 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 
 const int TourComplet = 180;
 const int UnQuartTour = 45;
+const int DoubleTour = 90;
 
 void setup() {
   Serial.begin(9600);
