@@ -23,7 +23,8 @@ int voletPos = 0;
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("Start");
+  Serial.println("Start // ");
+  Serial.println("Le volet est en position : " + String(voletPos));
   dht.begin(); // Demarre capteur humidity               
   AFMS.begin();  // Cree avec par default la frequence 1.6KHz 
   myMotor->setSpeed(10);  // Donne la speedBase du moteur 10 rpm   
@@ -48,13 +49,13 @@ void openRotate(int degree) { // Fonction pour ouvrir le volet
     Serial.println("J'ai fais un tour complet");
   }
   Serial.println("Mon volet est à la position :" + String(voletPos));
-  delay(10000);
+  delay(15000);
 }
 
 void closeRotate(int degree) { // Fonction pour fermer le volet 
   myMotor->step(QUART_TOUR, BACKWARD, SINGLE);
-  voletPos += degree;
-  delay(10000);
+  voletPos -= degree;
+  delay(15000);
 }
 
 void actifMotor () {
@@ -67,7 +68,7 @@ void actifMotor () {
     return;
   }
 
-  if (voletPos >= TOUR_COMPLET) {
+  if (voletPos >= TOUR_COMPLET && h >= 40) {
    Serial.println("Le volet ne peut pas être plus ouvert");
    closeRotate(QUART_TOUR); 
   } else {
