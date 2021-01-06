@@ -1,7 +1,7 @@
 #include "DHT.h"   // Librairie des capteurs DHT
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
-#define DHTPIN 2    // PIN Branchement du cpateur hum / temp
+#define DHTPIN 2    // PIN Branchement du capteur hum / temp
 #define DHTTYPE DHT22       // DHT 22  (AM2302)
 
 // Cree un objet motor avec les I2C address defautl
@@ -14,10 +14,11 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 
 DHT dht(DHTPIN, DHTTYPE);
 
-const int QUART_TOUR = 45;
-const int MOITIE_TOUR = 90;
-const int TROIS_QUART = 135;
-const int TOUR_COMPLET = 180;
+
+const int MAX_ROTATION = 88;
+const int TROIS_QUART = 67;
+const int MOITIE_TOUR = 45;
+const int QUART_TOUR = 22 ;
 
 int voletPos = 0;
 
@@ -55,10 +56,11 @@ void openRotate(int degree) { // Fonction pour ouvrir le volet
 void closeRotate(int degree) { // Fonction pour fermer le volet 
   myMotor->step(QUART_TOUR, BACKWARD, SINGLE);
   voletPos -= degree;
+  Serial.println("Mon volet est à la position :" + String(voletPos));
   delay(15000);
 }
 
-void actifMotor () {
+void actifMotor () { // FONCTION PRINCIPAL 
   // Lecture du taux d'humidité
   float h = dht.readHumidity();
   // Lecture de la température en Celcius
@@ -68,7 +70,7 @@ void actifMotor () {
     return;
   }
 
-  if (voletPos >= TOUR_COMPLET && h >= 40) {
+  if (voletPos >= MAX_ROTATION && h >= 40) {
    Serial.println("Le volet ne peut pas être plus ouvert");
    closeRotate(QUART_TOUR); 
   } else {
@@ -82,7 +84,7 @@ void actifMotor () {
         openRotate(TROIS_QUART); // 135
         
       } else if (h >= 91)  {
-        openRotate(TOUR_COMPLET); // 180
+        openRotate(MAX_ROTATION); // 180
         
       }
   }
