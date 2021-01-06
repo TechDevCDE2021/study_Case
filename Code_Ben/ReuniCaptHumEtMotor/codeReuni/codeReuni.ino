@@ -1,6 +1,9 @@
 #include "DHT.h"   // Librairie des capteurs DHT
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
+#define DHTPIN 2    // PIN Branchement du cpateur hum / temp
+#define DHTTYPE DHT22       // DHT 22  (AM2302)
+
 // Cree un objet motor avec les I2C address defautl
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();  
 
@@ -9,15 +12,14 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 
 
-#define DHTPIN 2    // PIN Branchement du cpateur hum / temp
-#define DHTTYPE DHT22       // DHT 22  (AM2302)
-
 DHT dht(DHTPIN, DHTTYPE);
 
-const int TourComplet = 180;
-const int TroisQuartTour = 135;
-const int MoitierTour = 90;
-const int UnQuartTour = 45;
+const int QUART_TOUR = 45;
+const int MOITIE_TOUR = 90;
+const int TROIS_QUART = 135;
+const int TOUR_COMPLET = 180;
+
+int voletPos = 0;
 
 void setup() {
   Serial.begin(9600);
@@ -33,88 +35,26 @@ void loop() {
   actifMotor(); // ActifMotor selon les données envoyé par captHT
 }
 
-void unQuart() { // fonction pour faire un quart de tour
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un quart de tour");
-  delay(10000);
-
-}
-
-void moitier() { // fonction pour faire la moitier d'un tour 
-  myMotor->step(MoitierTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais la moitier d'un tour ");
-  delay(10000);
-
-}
-
-void troisQuart() { // fonction pour faire le trois quart d'un tour 
-  myMotor->step(TroisQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais le trois quart d'un tour ");
-  delay(10000);
-
-}
-
-void tourComplet() { // fonction pour faire un tour complet 
-  myMotor->step(TourComplet, FORWARD, SINGLE);
-  Serial.println("J'ai fais un tour complet ");
-  delay(10000);
-
-}
-
-
-void oneStep () { // void du motor
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
-  Serial.println("J'ai fais un tour complet.");
-  
-  //  myMotor->step(360, BACKWARD, SINGLE); 
-
-  //  Serial.println("Double coil steps");
-  //  myMotor->step(100, FORWARD, DOUBLE); 
-  //  myMotor->step(100, BACKWARD, DOUBLE);
-  //  
-  //  Serial.println("Interleave coil steps");
-  //  myMotor->step(100, FORWARD, INTERLEAVE); 
-  //  myMotor->step(100, BACKWARD, INTERLEAVE); 
-  //  
-  //  Serial.println("Microstep steps");
-  //  myMotor->step(50, FORWARD, MICROSTEP); 
-  //  myMotor->step(50, BACKWARD, MICROSTEP);
-}
-
-void captHT () {
-
-  // Lecture du taux d'humidité
-  float h = dht.readHumidity();
-  // Lecture de la température en Celcius
-  float t = dht.readTemperature();
-  if (isnan(h) || isnan(t)) {
-    Serial.println("Echec de lecture !");
-    return;
+void openRotate(int degree) { // Fonction pour ouvrir le volet 
+  myMotor->step(degree, FORWARD, SINGLE);
+  voletPos += degree;
+  if (degree == QUART_TOUR) {
+    Serial.println("J'ai fais un quart de tour");
+  } else if (degree == MOITIE_TOUR) {
+    Serial.println("J'ai fais la moitier d'un tour ");
+  } else if (degree == TROIS_QUART) {
+    Serial.println("J'ai fais le trois quart d'un tour ");
+  } else {
+    Serial.println("J'ai fais un tour complet");
   }
+  Serial.println("Mon volet est à la position :" + String(voletPos));
+  delay(10000);
+}
 
-  // Calcul la température ressentie. Il calcul est effectué à partir de la température en Fahrenheit
-  // On fait la conversion en Celcius dans la foulée
-  float hi = dht.computeHeatIndex(h);
-  
-
-  Serial.print("Humidite: "); 
-  Serial.print(h);
-  Serial.print(" %\t");
-  Serial.print("Temperature: "); 
-  Serial.print(t);
-  Serial.print(" *C ");
-  Serial.print("Temperature ressentie: ");
-  Serial.print(dht.convertFtoC(hi));
-  Serial.println(" *C");
-  
+void closeRotate(int degree) { // Fonction pour fermer le volet 
+  myMotor->step(QUART_TOUR, BACKWARD, SINGLE);
+  voletPos += degree;
+  delay(10000);
 }
 
 void actifMotor () {
@@ -126,18 +66,24 @@ void actifMotor () {
     Serial.println("Echec de lecture !");
     return;
   }
-  if (h >= 50 && h <= 69 ) {
-    unQuart();
-   
-  } else if (h >= 70 && h <= 84) {
-    moitier();
 
-  } else if (h > 85 && h <= 90) {
-    troisQuart();
-
-  } else if (h >= 91)  {
-    tourComplet();
- 
+  if (voletPos >= TOUR_COMPLET) {
+   Serial.println("Le volet ne peut pas être plus ouvert");
+   closeRotate(QUART_TOUR); 
+  } else {
+      if (h >= 50 && h <= 69 ) {
+        openRotate(QUART_TOUR); // 45
+        
+      } else if (h >= 70 && h <= 84) {
+        openRotate(MOITIE_TOUR); // 90
+      
+      } else if (h > 85 && h <= 90) {
+        openRotate(TROIS_QUART); // 135
+        
+      } else if (h >= 91)  {
+        openRotate(TOUR_COMPLET); // 180
+        
+      }
   }
   
   // Calcul la température ressentie. Il calcul est effectué à partir de la température en Fahrenheit
@@ -150,9 +96,9 @@ void actifMotor () {
   Serial.print(" %\t");
   Serial.print("Temperature: "); 
   Serial.print(t);
-  Serial.print(" *C ");
+  Serial.print(" C ");
   Serial.print("Temperature ressentie: ");
   Serial.print(dht.convertFtoC(hi));
-  Serial.println(" *C");
+  Serial.println(" C");
   
 }
