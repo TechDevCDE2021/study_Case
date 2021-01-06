@@ -4,7 +4,7 @@
 #define STEPPER_PIN_4 11
 #include <AFMotor.h>
 
-unsigned int speed = 5000;    // 2000make a modification for your test
+unsigned int speed = 5000;   
 AF_Stepper motor(64, 2);
 
 void setup() {
