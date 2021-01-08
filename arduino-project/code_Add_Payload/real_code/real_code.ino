@@ -20,6 +20,8 @@ const int ROTATE = 45;  // Tourne le moteur
 boolean isOpen = true;
 int voletPos = 0;
 
+int humidityS; 
+
 
 // Cree un objet motor avec les I2C address defautl
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
@@ -64,36 +66,44 @@ void loop()
   delay(6000);
 }
 
-void message(const uint8_t *payload, size_t size, port_t port) {
-  if (payload[0] == 1 || payload[0] == 0 ) {
-    Serial.println("-------------------------------------");
+
+void message (const uint8_t *payload, size_t size, port_t port) {
+  int i;
+  switch(payload[i]) {
+    case 0:
+    case 1: 
+    Serial.println("----------------------------");
     Serial.println("Mode Manuel");
-    if ( payload[0] == 1 && isOpen) {
-      Serial.println("Je tourne pour ouvrir, mode Manuel");
+    if ( payload[0] == 1 && !isOpen) {
+      Serial.println(" OUVRE, mode Manuel");
       openRotate(ROTATE);
-    } else {
-      Serial.println("Je tourne pour fermer, mode Manuel");
+    } else if (payload[0] == 0 && isOpen) {
+      Serial.println(" FERME, mode Manuel");
       closeRotate(ROTATE);
+    } else {
+      Serial.println("Je ne peux pas faire ce que tu veux ");
     }
-  } else {
+    break;
+    case 2:
     Serial.println("-------------------------------------");
     Serial.println("Mode Auto");
-    Serial.println("Je rentre dans le else");
     Serial.println("-------------------------------------");
-    if (humidity >= 5000 && !isOpen) {
-      Serial.println("Je tourne pour ouvrir, mode Auto");
+     if (humidity < 5000 && !isOpen) {
       Serial.println("Humidité dans le mode auto : " + String(humidity));
+      Serial.println(" FERME, mode Auto");
       openRotate(ROTATE);
-    } else if (humidity < 5000 && isOpen) {
+    } else if (humidity >= 5000 && isOpen) {
       Serial.println("Humidité dans le mode manuel : " + String(humidity));
-      Serial.println("Je tourne pour fermer, mode Auto");
+      Serial.println(" OUVRE, mode Auto");
       closeRotate(ROTATE);
     } else {
       Serial.println("Je fais rien");
     }
+    break;
   }
-  Serial.println("-------------------------------------");
 }
+
+
 
 void openRotate(int degree) { // Fonction pour ouvrir le volet
   myMotor->step(ROTATE, FORWARD, SINGLE);
