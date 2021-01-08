@@ -5,7 +5,7 @@
 
 // Set your AppEUI and AppKey
 const char *appEui = "70B3D57ED003AE78";
-const char *appKey = "7BB63039B8E74C82C4C0AAFC2C0B8E21";
+const char *appKey = "20E15BFC27CD9836F96A16D16C3FE6C0";
 
 #define loraSerial Serial1
 #define debugSerial Serial
@@ -16,7 +16,7 @@ const char *appKey = "7BB63039B8E74C82C4C0AAFC2C0B8E21";
 // Replace REPLACE_ME with TTN_FP_EU868 or TTN_FP_US915
 #define freqPlan TTN_FP_EU868
 
-DHT dht(2, DHT22);
+DHT dht(5, DHT22);
 TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
 
 void setup()

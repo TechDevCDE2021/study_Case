@@ -1,7 +1,7 @@
 #include "DHT.h"   // Librairie des capteurs DHT
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
-#define DHTPIN 2    // PIN Branchement du capteur hum / temp
+#define DHTPIN 5    // PIN Branchement du capteur hum / temp
 #define DHTTYPE DHT22       // DHT 22  (AM2302)
 
 // Cree un objet motor avec les I2C address defautl
@@ -14,8 +14,8 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 
 DHT dht(DHTPIN, DHTTYPE);
 
-
-const int MAX_ROTATION = 88;
+const int MAX_FERME = 0; // TODO  : il faut récupérer la position moteur pour qu'il se ferme jusqu'à un certain point.
+const int MAX_ROTATION = 88; // TODO : il faut récupérer la position moteur MAX pour qu'il s'ouvre jusqu'à un certain point 
 const int TROIS_QUART = 67;
 const int MOITIE_TOUR = 45;
 const int QUART_TOUR = 22 ;
@@ -69,25 +69,29 @@ void actifMotor () { // FONCTION PRINCIPAL
     Serial.println("Echec de lecture !");
     return;
   }
-
-  if (voletPos >= MAX_ROTATION && h >= 40) {
-   Serial.println("Le volet ne peut pas être plus ouvert");
-   closeRotate(QUART_TOUR); 
-  } else {
-      if (h >= 50 && h <= 69 ) {
-        openRotate(QUART_TOUR); // 45
-        
-      } else if (h >= 70 && h <= 84) {
-        openRotate(MOITIE_TOUR); // 90
-      
-      } else if (h > 85 && h <= 90) {
-        openRotate(TROIS_QUART); // 135
-        
-      } else if (h >= 91)  {
-        openRotate(MAX_ROTATION); // 180
-        
+  if (voletPos >= MAX_ROTATION && h >= 40 ) {
+    Serial.println("Le volet ne peut pas être plus ouvert");
+  } else if  (voletPos >= MAX_ROTATION && h <= 40) {
+      if (h <= 30 ) {
+        closeRotate(MAX_FERME);    
+      } else { 
+        closeRotate(QUART_TOUR); 
       }
-  }
+        } else {
+          if (h >= 50 && h <= 69 ) {
+            openRotate(QUART_TOUR); // 45
+            
+          } else if (h >= 70 && h <= 84) {
+            openRotate(MOITIE_TOUR); // 90
+          
+          } else if (h > 85 && h <= 90) {
+            openRotate(TROIS_QUART); // 135
+            
+          } else if (h >= 91)  {
+            openRotate(MAX_ROTATION); // 180
+            
+          }
+    }
   
   // Calcul la température ressentie. Il calcul est effectué à partir de la température en Fahrenheit
   // On fait la conversion en Celcius dans la foulée
