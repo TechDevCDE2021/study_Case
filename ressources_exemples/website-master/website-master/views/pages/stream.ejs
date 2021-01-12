@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%- include ('../partials/head') -%>
+</head>
+
+<body id="page-top">
+	<%- include ('../partials/header') -%>
+
+	<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Flux vidéo</h1>
+      </div>
+
+       <!-- Content Row -->
+      <div class="row">
+      	<video width="100%" autoplay muted>
+    		  <source src="<%= vlc %>">
+    		</video>
+      </div>
+
+    </div>
+
+    <%- include ('../partials/footer') -%>
+</body>
+
+</html>
