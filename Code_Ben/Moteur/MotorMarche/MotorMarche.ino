@@ -36,17 +36,17 @@ void loop() {
 //  Serial.println("Microstep steps");
 //  myMotor->step(50, FORWARD, MICROSTEP); 
 //  myMotor->step(50, BACKWARD, MICROSTEP);
-}
+} 
 
 void oneStep () {
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
+  myMotor->step(TourComplet, FORWARD, SINGLE);
   Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
+  myMotor->step(TourComplet, FORWARD, SINGLE);
   Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
+  myMotor->step(TourComplet, FORWARD, SINGLE);
   Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
+  myMotor->step(TourComplet, FORWARD, SINGLE);
   Serial.println("J'ai fais un quart de tour");
-  myMotor->step(UnQuartTour, FORWARD, SINGLE);
+  myMotor->step(TourComplet, FORWARD, SINGLE);
   Serial.println("J'ai fais un tour complet.");
 }
