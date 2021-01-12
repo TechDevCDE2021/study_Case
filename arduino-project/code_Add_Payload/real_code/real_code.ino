@@ -81,9 +81,13 @@ void loop()
   temperature = dht.readTemperature(false) * 100;
   sendHT(); // Données envoyé par le capteur
   delay(6000);
-  Serial.print("Le vent est de : ");
-  Serial.print(wind);
-  Serial.println(" km/h");
+  if (wind > 10 && isOpen) { // Première condition, si il y a trop de vent, le volet se ferme.
+    Serial.print("TROP DE VENT ON FERME ");
+    closeRotate(ROTATE);
+  }
+//  Serial.print("Le vent est de : ");
+//  Serial.print(wind);
+//  Serial.println(" km/h");
   captWind();
 }
 
