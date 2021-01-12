@@ -1,3 +1,5 @@
+
+require('./ttn');
 const express = require('express');
 const app = express();
 const port = 666;
@@ -9,3 +11,9 @@ app.use('/charts-embed-dom.js', (req, res) => {
 })
 require('http').Server(app).listen(port);
 console.log("server is running at port " + port);
+
+app.get('/door_manual', function (req, res) {
+    isManual = true;
+    isOPen = !isOPen;
+    isDownlinkSending = true;
+  });
