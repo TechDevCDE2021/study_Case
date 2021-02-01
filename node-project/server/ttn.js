@@ -1,18 +1,36 @@
+const model = require('./model');
+
+require('./model')
+const DoorState = Object.freeze({
+    close: "close",
+    open: "open"
+});
+
 module.exports = (mongoClient) => {
+    var downLink = {door: DoorState.close}
     var ttn = require("ttn");
     var appID = "in_serre_we_trust"
     var accessKey = "ttn-account-v2.c7xyHOK3uiZrEWTmIQaA0ylDq_ebZKpXaShhnRycV28"
-    var isSending = false;
     ttn.data(appID, accessKey)
         .then(function (ttnClient) {
             ttnClient.on("uplink", function (devID, payload) {
-                if (isSending){
+                if (model.isDownlinkSending) {
                     console.log('sending');
-                    ttnClient.send(devID, "01", 1);
-                    isSending = false;
+                    ttnClient.send(devID, encodePayload(downLink), 1);
+                    model.isDownlinkSending = false;
                 }
                 const result = mongoClient.db("greenhouse-metrics").collection("ttn-values").insertOne(payload);
-                //console.log(`New listing created with the following id: ${result.insertedId}`);
+                console.log(`New listing created with the following id: ${result}`);
             })
         })
 };
+
+encodePayload = (payload) => {
+    res = payload
+    if (model.isOpen) {
+        res.door = DoorState.open
+    } else {
+        res.door = DoorState.close
+    }
+    return res
+}

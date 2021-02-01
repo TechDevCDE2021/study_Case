@@ -1,5 +1,4 @@
-
-require('./ttn');
+require('./model')
 const express = require('express');
 const app = express();
 const port = 666;
@@ -13,7 +12,8 @@ require('http').Server(app).listen(port);
 console.log("server is running at port " + port);
 
 app.get('/door_manual', function (req, res) {
-    isManual = true;
-    isOPen = !isOPen;
-    isDownlinkSending = true;
-  });
+    model.isManual = true;
+    model.isOpen = !model.isOpen;
+    model.isDownlinkSending = true;
+    res.send(model)
+});
