@@ -4,7 +4,8 @@
 #include <Wire.h>
 #include <Adafruit_MotorShield.h>
 
-// ##### NE PAS UTILSER LE PIN 2 AVEC LEONARDO POUR CONNEXION TTN  ##### //
+// ** NE PAS UTILISER LE PIN 2 AVEC LEONARDO POUR CONNEXION TTN **
+// ** OUVERTURE FERMETURE : ROTATE DE 4000 POUR DU SINGLE STEP  **
 
 #define CAPTVENT 7 // PIN Branchement du capteur de vent 
 #define DHTPIN 5    // PIN Branchement du capteur hum / temp
@@ -17,11 +18,18 @@
 
 const char *appEui = "70B3D57ED003AE78";
 const char *appKey = "20E15BFC27CD9836F96A16D16C3FE6C0";
-const int MAX_FERME = 0; // TODO  : il faut récupérer la position moteur pour qu'il se ferme jusqu'à un certain point.
-const int MAX_ROTATION = 90; // TODO : il faut récupérer la position moteur MAX pour qu'il s'ouvre jusqu'à un certain point.
-const int ROTATE = 45;  // Tourne le moteur
+const int MAX_FERME = 0; 
+const int MAX_ROTATION = 90; 
+const int ROTATE = 4000; // Tourne le moteur pour ouvrir
+const int ROTATECLOSE = 5000;
+const int SENSOR = 0; // CAPTEUR HUMIDITY DANS TERRE
+int VALUE = 0; // 
 
-// Calcule du vent
+//  /!\ De base un boolean est à FALSE /!\ 
+
+boolean autoMode = true;
+
+// Calcul du vent
 
 int vitesse;
 unsigned long tPer;
@@ -31,8 +39,8 @@ volatile unsigned long tActu, tPrec;
 
 // Savoir si le volet est ouvert ou fermé
 
-boolean isOpen = true;
-int voletPos = 0;
+boolean isOpen = false;
+int voletPos = 0; // Recupération de la position du volet
 
 // ----------------------------------
 
@@ -48,14 +56,18 @@ Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 2);
 DHT dht(DHTPIN, DHTTYPE);
 TheThingsNetwork ttn(loraSerial, debugSerial, freqPlan);
 
-//   Lecture du taux d'humidité
-//   unit32_t is a numeric type that guarantees 32 bits
+// Lecture du taux d'humidité
+// unit32_t is a numeric type that guarantees 32 bits
 uint32_t humidity;
+
 // Lecture de la température en Celcius
 uint32_t temperature;
+
 // Lecture du vent
 uint32_t wind;
 
+// Lecture de l'humidité dans la terre
+uint32_t humiditySoil;
 
 void setup()
 {
@@ -63,7 +75,6 @@ void setup()
   attachInterrupt(digitalPinToInterrupt(CAPTVENT), inter, RISING); // Interrupt Capt.Vent
   loraSerial.begin(57600);
   debugSerial.begin(9600);
-  // Wait a maximum of 10s for Serial Monitor
   while (!debugSerial && millis() < 10000);
   debugSerial.println("-- STATUS");
   ttn.showStatus();
@@ -72,63 +83,67 @@ void setup()
   ttn.onMessage(message);
   dht.begin();
   AFMS.begin();  // Cree avec par default la frequence 1.6KHz
-  myMotor->setSpeed(10);  // Donne la speedBase du moteur 10 rpm
+  myMotor->setSpeed(125);  // Donne la speedBase du moteur 10 rpm
 }
 
 void loop()
 {
+  Serial.println("Depart de boucle");
   humidity = dht.readHumidity(false) * 100;
   temperature = dht.readTemperature(false) * 100;
-  sendHT(); // Données envoyé par le capteur
+  
+  sendHT(); // Données envoyé par les capteurs HUMI / TEMP
   delay(6000);
-  if (wind > 10 && isOpen) { // Première condition, si il y a trop de vent, le volet se ferme.
-    Serial.print("TROP DE VENT ON FERME ");
-    closeRotate(ROTATE);
-  }
-//  Serial.print("Le vent est de : ");
-//  Serial.print(wind);
-//  Serial.println(" km/h");
+ 
+  humiSoil();
   captWind();
+  if (wind > 10 && isOpen && !autoMode){
+    Serial.println("FERME à cause du vent et mode manuel");
+    closeRotate(ROTATECLOSE);
+    }
+  if (autoMode == true) {
+    autoModeAct();
+  }
 }
 
+// -----------------ENVOIE MESSAGE----------------------
 
 void message (const uint8_t *payload, size_t size, port_t port) {
-  int i;
-  switch (payload[i]) {
-    case 0:
-    case 1:
-      Serial.println("----------------------------");
-      Serial.println("Mode Manuel");
-      if ( payload[0] == 1 && !isOpen) {
-        Serial.println(" OUVRE, mode Manuel");
+  switch (payload[0]) {
+    case 0: autoMode = false;
+      if (!isOpen && wind < 10) {
+        Serial.println(" OUVRE, mode MANUEL");
         openRotate(ROTATE);
-      } else if (payload[0] == 0 && isOpen) {
-        Serial.println(" FERME, mode Manuel");
+      } else {
+        Serial.println("Je ne peux pas OUVRIR."); break;
+      }; break;
+    case 1: autoMode = false;
+      if (isOpen) {
+        Serial.println(" FERME, mode MANUEL");
         closeRotate(ROTATE);
       } else {
-        Serial.println("Je ne peux pas faire ce que tu veux ");
-      }
-      break;
+        Serial.println("Je ne peux pas FERMER."); break;
+      } break;
     case 2:
-      Serial.println("-------------------------------------");
-      Serial.println("Mode Auto");
-      Serial.println("-------------------------------------");
-      if (humidity < 5000 && !isOpen) {
-        Serial.println("Humidité dans le mode auto : " + String(humidity));
-        Serial.println(" FERME, mode Auto");
-        openRotate(ROTATE);
-      } else if (humidity >= 5000 && isOpen) {
-        Serial.println("Humidité dans le mode manuel : " + String(humidity));
-        Serial.println(" OUVRE, mode Auto");
-        closeRotate(ROTATE);
-      } else {
-        Serial.println("Je fais rien");
-      }
-      break;
+      autoMode = true;
+      break ;
   }
 }
 
-// Fonction calcul vent :
+// -----------------Fonction calcul HUMIDSOIL----------------------
+
+int humiSoil () {
+  Serial.print("MA VALEUR EST DE :  ");
+  VALUE = analogRead(SENSOR);
+  VALUE = VALUE / 10;
+  if (VALUE < 50) { 
+    Serial.println("Je suis sec eh");
+  } else  {
+    Serial.println("JE SUIS TREMPE");
+  }
+}
+
+// ------------------Fonction calcul VENT-------------------------
 
 void captWind() {
   if (tActu - tPrec > 0) {
@@ -149,29 +164,32 @@ void inter() {
   }
 }
 
-// --------------------------------------------------
+// -----------------OUVERTURE FERMETURE VOLET -----------------
 
-void openRotate(int degree) { // Fonction pour ouvrir le volet
-  myMotor->step(ROTATE, FORWARD, MICROSTEP);
-  voletPos += degree;
+void openRotate(int degree) {
+  myMotor->step(ROTATE, BACKWARD, SINGLE);
+  Serial.println("J'ai finis d'ouvrir");
+  voletPos -= degree;
   isOpen = true;
   Serial.println("Mon volet est à la position :" + String(voletPos));
 }
 
-void closeRotate(int degree) { // Fonction pour fermer le volet
-  myMotor->step(ROTATE, BACKWARD, MICROSTEP);
-  voletPos -= degree;
+void closeRotate(int degree) { 
+  myMotor->step(ROTATE, FORWARD, SINGLE);
+  Serial.println("J'ai finis de fermer");
+  voletPos += degree;
   isOpen = false;
   Serial.println("Mon volet est à la position :" + String(voletPos));
 }
 
+// -----------------ENVOIE PAYLOAD---------------------------------
 
 void sendHT () {
   if (isnan(humidity) || isnan(temperature)) {
     Serial.println("Echec de lecture !");
     return;
   }
-  byte payload[8];
+  byte payload[12];
   payload[0] = highByte(humidity);
   payload[1] = lowByte(humidity);
   payload[2] = highByte(temperature);
@@ -185,7 +203,33 @@ void sendHT () {
   }
   payload[6] = highByte(wind);
   payload[7] = lowByte(wind);
+  payload[8] = highByte(autoMode);
+  payload[9] = lowByte(autoMode);
+  
+  payload[10] = highByte(VALUE);
+  payload[11] = lowByte(VALUE);
+
+
   ttn.sendBytes(payload, sizeof(payload));
   float hi = dht.computeHeatIndex(humidity);
-
 }
+
+// ------------------AUTOMODE--------------------------------
+
+void autoModeAct() {
+  Serial.println("-------------------------------------");
+  Serial.println("             Mode Auto               ");
+  Serial.println("-------------------------------------");
+  Serial.println("Humidité dans le mode auto : " + String(humidity));
+  if (humidity < 6500 && isOpen) {
+    Serial.println(" FERME, mode AUTO");
+    closeRotate(ROTATE);
+  } else if (humidity >= 6500 && !isOpen && wind < 10) {
+    Serial.println(" OUVRE, mode AUTO");
+    openRotate(ROTATE);
+  } else {
+    Serial.println("Je fais rien");
+  }
+}
+
+// --------------------------------------------------
