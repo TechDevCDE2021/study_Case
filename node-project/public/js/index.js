@@ -17,20 +17,25 @@ const update = () => {
     .then(function () {});
 }
 
-update();
-
 document.getElementById('door').onclick = () => {
   axios.get(url.DOOR_MANUAL)
     .then(function (response) {
       console.log(response);
       update();
     })
-
     .catch(function (error) {
       console.log(error);
     })
     .then(function () {});
 };
+
+const doPoll = () => {
+  update()
+  setTimeout(doPoll,10000);
+}
+
+doPoll();
+
 
 // Charts
 // TODO : Faire une boucle pour factoriser tout le bordel
