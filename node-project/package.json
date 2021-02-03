@@ -4,7 +4,7 @@
     "description": "greenhouse monitoring server",
     "main": "server.js",
     "scripts": {
-        "start": "node server/app.js",
+        "start": "nodemon server/app.js",
         "format": "prettier --write \"src/**/*.js\"",
         "lint": "prettier --check \"src/**/*.js\""
     },
@@ -15,10 +15,7 @@
         "axios": "^0.19.2",
         "express": "^4.17.1",
         "mongodb": "^3.6.3",
-        "mqtt": "^4.0.1",
         "nodemon": "^2.0.3",
-        "prettier": "^2.2.1",
-        "snowpack": "^2.18.5",
         "ttn": "^2.3.3"
     }
 }
