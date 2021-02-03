@@ -1,20 +1,6 @@
 import pageText from './page-text.js'
 import url from './urls.js'
-
-const sdk = new ChartsEmbedSDK({
-  baseUrl: 'https://charts.mongodb.com/charts-greenhouse-nvskp'
-});
-
-const chart = sdk.createChart({
-  chartId: 'fc7ffb00-f0a2-4776-8e37-8e4960d775d7',
-  width: 640,
-  height: 400,
-  theme: 'dark',
-  autoRefresh: true,
-  maxDataAge: 20,
-});
-
-chart.render(document.getElementById("chart"));
+import chartAuth from './charts_auth.js'
 
 const update = () => {
   axios.get('/app_state')
@@ -45,3 +31,77 @@ document.getElementById('door').onclick = () => {
     })
     .then(function () {});
 };
+
+// Charts
+// TODO : Faire une boucle pour factoriser tout le bordel
+
+const sdk = new ChartsEmbedSDK({
+  baseUrl: 'https://charts.mongodb.com/charts-greenhouse-nvskp'
+});
+
+const line_humidity = sdk.createChart({
+  chartId: chartAuth.line_humidity.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+line_humidity.render(document.getElementById("line_humidity"));
+
+const line_temperature = sdk.createChart({
+  chartId: chartAuth.line_temperature.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+line_temperature.render(document.getElementById("line_temperature"));
+
+const line_wind = sdk.createChart({
+  chartId: chartAuth.line_wind.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+line_wind.render(document.getElementById("line_wind"));
+
+const gauge_air_hum = sdk.createChart({
+  chartId: chartAuth.gauge_air_hum.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+gauge_air_hum.render(document.getElementById("gauge_air_hum"));
+
+const gauge_soil_hum = sdk.createChart({
+  chartId: chartAuth.gauge_soil_hum.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+gauge_soil_hum.render(document.getElementById("gauge_soil_hum"));
+
+const gauge_temperature = sdk.createChart({
+  chartId: chartAuth.gauge_temperature.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+gauge_temperature.render(document.getElementById("gauge_temperature"));
+

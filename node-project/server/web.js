@@ -17,9 +17,10 @@ app.get('/door_manual', function (req, res) {
     model.isOpen = !model.isOpen;
     model.isDownlinkSending = true;
     res.send(model)
+    console.log('door : ',model.isOpen);
 });
 
 app.get('/app_state', function(req,res){
-    console.log('server')
+    console.log('ui update');
     res.send(model)
 })

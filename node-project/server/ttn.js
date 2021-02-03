@@ -46,7 +46,7 @@ createDbDocument = (payload) => {
             hum_air: payload.payload_fields.humidity,
             hum_ground: payload.payload_fields.humSoil,
             temperature: payload.payload_fields.temperature,
-            wind: payload.payload_fields.wind 
+            wind: payload.payload_fields.wind, 
         }
     }
     return res

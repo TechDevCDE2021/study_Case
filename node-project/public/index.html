@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="utf-8" />
   <link rel="icon" href="/favicon.ico" />
@@ -16,12 +17,18 @@
 
 <body>
   <button type="button" id="door" class="btn btn-primary"></button>
-  <div id="chart"></div>
+  <div class="charts_container">
+    <div id="line_humidity"></div>
+    <div id="line_temperature"></div>
+    <div id="line_wind"></div>
+    <div id="gauge_wind"></div>
+    <div id="gauge_air_hum"></div>
+    <div id="gauge_soil_hum"></div>
+    <div id="gauge_temperature"></div>
+  </div>
   <div class="form-switch">
     <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" />
-    <label class="form-check-label" for="flexSwitchCheckDefault"
-      >Default switch checkbox input</label
-    >
+    <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox input</label>
   </div>
 
   <!-- ------------------------------- Scripts ------------------------------- -->
