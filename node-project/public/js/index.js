@@ -72,6 +72,17 @@ const line_wind = sdk.createChart({
 
 line_wind.render(document.getElementById("line_wind"));
 
+const line_battery = sdk.createChart({
+  chartId: chartAuth.line_battery.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+line_battery.render(document.getElementById("line_battery"));
+
 const gauge_air_hum = sdk.createChart({
   chartId: chartAuth.gauge_air_hum.ID,
   width: 640,
@@ -104,4 +115,15 @@ const gauge_temperature = sdk.createChart({
 });
 
 gauge_temperature.render(document.getElementById("gauge_temperature"));
+
+const gauge_battery = sdk.createChart({
+  chartId: chartAuth.gauge_battery.ID,
+  width: 640,
+  height: 400,
+  theme: 'dark',
+  autoRefresh: true,
+  maxDataAge: 20,
+});
+
+gauge_battery.render(document.getElementById("gauge_battery"));
 
