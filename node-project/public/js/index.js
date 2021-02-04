@@ -2,56 +2,28 @@ import pageText from './page-text.js'
 import url from './urls.js'
 import chartAuth from './charts_auth.js'
 
-const doPoll = () => {
-  update()
-  setTimeout(doPoll, 10000);
-}
+var socket = io();
 
-const update = () => {
-  axios.get('/app_state')
-    .then(function (response) {
-      if (response.data.isOpen) {
-        document.getElementById('door').innerText = pageText.TOCLOSE;
-      } else {
-        document.getElementById('door').innerText = pageText.TOOPEN;
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .then(function () {});
-}
+socket.on('update', (msg) => {
+  console.log(msg.isOpen)
+  if (msg.isOpen) {
+    document.getElementById('door').innerText = pageText.TOCLOSE;
+  } else {
+    document.getElementById('door').innerText = pageText.TOOPEN;
+  }
+});
 
 document.getElementById('door').onclick = () => {
-  axios.get(url.DOOR_MANUAL)
-    .then(function (response) {
-      console.log(response);
-      update();
-    })
-    .catch(function (error) {
-      console.log(error);
-    })
-    .then(function () {});
+  socket.emit('door_manual', 1);
 };
 
 document.getElementById('auto').onclick = () => {
-  axios.post(url.DOOR_AUTO,  {
-    humBound: 70,
-    tempBound: 50
-  })
-    .then(function (response) {
-      console.log(response);
+    socket.emit('door_auto', {
+      humBound: 70,
+      tempBound: 50
     })
-    .catch(function (error) {
-      console.log(error);
-    });
 }
 
-doPoll();
-
-
-// Charts
-// TODO : Faire une boucle pour factoriser tout le bordel
 const DATA_AGE = 20000
 
 const sdk = new ChartsEmbedSDK({
