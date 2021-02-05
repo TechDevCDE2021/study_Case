@@ -1,0 +1,14 @@
+/node_modules/
+/npm-debug.*
+/.npmrc
+/sessions/
+/session/
+/artifact/
+/artifacts/
+/artefacts/
+/build/
+/coverage/
+/test-reports/
+/.nyc_output/
+/.scannerwork/
+**/public/js/lib/*

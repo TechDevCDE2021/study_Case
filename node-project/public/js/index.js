@@ -12,19 +12,19 @@ socket.on('update', (msg) => {
     document.getElementById('door').innerText = pageText.TOOPEN;
   }
 });
-
+// cette ligne pas besoin de la garder vivi
 document.getElementById('door').onclick = () => {
   socket.emit('door_manual', 1);
 };
 
 document.getElementById('auto').onclick = () => {
     socket.emit('door_auto', {
-      humBound: 70,
+      humBound: 999999,
       tempBound: 50
     })
 }
 
-const DATA_AGE = 20000
+const DATA_AGE = 200
 
 const sdk = new ChartsEmbedSDK({
   baseUrl: 'https://charts.mongodb.com/charts-greenhouse-nvskp'

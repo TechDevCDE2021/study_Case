@@ -3,13 +3,16 @@ const model = require('./model');
 require('./model')
 const DoorState = Object.freeze({
     close: "close",
-    open: "open"
+    open: "open",
+    auto: "auto"
 });
 
 module.exports = (mongoClient) => {
-    var downLink = {
-        door: DoorState.close
-    }
+    // var downLink = {
+    //     door: DoorState.close,
+    //     humBound: model.humBound,
+    //     TempBound: model.tempBound,
+    // }
     var ttn = require("ttn");
     var appID = "in_serre_we_trust"
     var accessKey = "ttn-account-v2.c7xyHOK3uiZrEWTmIQaA0ylDq_ebZKpXaShhnRycV28"
@@ -17,8 +20,9 @@ module.exports = (mongoClient) => {
         .then(function (ttnClient) {
             ttnClient.on("uplink", function (devID, payload) {
                 if (model.isDownlinkSending) {
-                    console.log('sending');
-                    ttnClient.send(devID, encodePayload(downLink), 1);
+                    let down = encodePayload();
+                    console.log('sending ', down);
+                    ttnClient.send(devID, down, 1);
                     model.isDownlinkSending = false;
                 }
                 const result = mongoClient.db("greenhouse-metrics").collection("sensors_datas").insertOne(createDbDocument(payload));
@@ -27,12 +31,17 @@ module.exports = (mongoClient) => {
         })
 };
 
-encodePayload = (payload) => {
-    res = payload
+encodePayload = () => {
+    let res = {door: '', humBound: '' , tempBound: ''};
     if (model.isOpen) {
-        res.door = DoorState.open
+        res.door = DoorState.open;
     } else {
-        res.door = DoorState.close
+        res.door = DoorState.close;
+    }
+    if (!model.isManual){
+        res.door = DoorState.auto;
+        res.humBound = model.humBound;
+        res.tempBound = model.tempBound;
     }
     return res
 }
