@@ -95,7 +95,7 @@ socket.on('model', (msg) => {
 //     })
 // })
 
-const DATA_AGE = 20000
+const DATA_AGE = 20
 
 const sdk = new ChartsEmbedSDK({
   baseUrl: 'https://charts.mongodb.com/charts-greenhouse-nvskp'

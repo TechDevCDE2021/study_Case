@@ -4,7 +4,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const db = require('./utils/db');
-var socket_io = require('socket.io')
+var socket_io = require('socket.io');
+const hbs = require('express-handlebars');
 
 // Express
 var app = express();
@@ -17,8 +18,18 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/login');
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs({
+  extname: 'hbs',
+  defaultLayout: 'index',
+  layoutsDir: __dirname + '/views/',
+  partialsDir: __dirname + '/views/partials/'
+}));
+// hbs.registerPartials(__dirname + '/views/partials');
+// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+
+
 
 app.use(logger('dev'));
 app.use(express.json());
