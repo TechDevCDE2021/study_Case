@@ -23,10 +23,15 @@ io.on('connection', (socket) => {
         model.isManual = true;
         model.isOpen = !model.isOpen;
         model.isDownlinkSending = true;
+        console.log(model.isOpen)
+        io.emit('update', model);
     })
     socket.on('door_auto', (msg) => {
         model.isManual= false
         model.humBound = msg.humBound;
         model.tempBound = msg.tempBound;
+        model.isDownlinkSending = true;
+        console.log(model.isManual)
+        io.emit('update', model);
     })
 });

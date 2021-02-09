@@ -1,0 +1,26 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color:white
+}
+
+a {
+  color: #00B7FF;
+}
+
+body {
+  background-color: #2a3d49;
+}
+
+.charts_container {
+  display : flex;
+  flex-direction : row;
+  justify-content: center;
+  flex-wrap: wrap;
+
+}
+
+#wind_alert {
+  color:#dc3545;
+  visibility: hidden;
+}
