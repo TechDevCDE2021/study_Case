@@ -22,14 +22,16 @@ Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 
 // Connect a stepper motor with 200 steps per revolution (1.8 degree)
 // to motor port #2 (M3 and M4)
-Adafruit_StepperMotor *myStepper1 = AFMS.getStepper(200, 3);
+Adafruit_StepperMotor *myStepper1 = AFMS.getStepper(200, 2);
 
 // you can change these to DOUBLE or INTERLEAVE or MICROSTEP!
 void forwardstep1() {  
-  myStepper1->onestep(FORWARD, SINGLE);
+  myStepper1->step(FORWARD, SINGLE);
+  delay(10000);
 }
 void backwardstep1() {  
-  myStepper1->onestep(BACKWARD, SINGLE);
+  myStepper1->step(BACKWARD, SINGLE);
+  delay(10000);
 }
 
 AccelStepper Astepper1(forwardstep1, backwardstep1); // use functions to step
@@ -48,4 +50,5 @@ void setup()
 void loop()
 {  
    Astepper1.runSpeed();
+   Astepper1.stop();
 }

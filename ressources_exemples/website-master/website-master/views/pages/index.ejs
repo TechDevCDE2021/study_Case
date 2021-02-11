@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<%- include ('../partials/head') -%>
+</head>
+
+<body id="page-top">
+	<%- include ('../partials/header') -%>
+
+	<!-- Begin Page Content -->
+    <div class="container-fluid">
+
+      <!-- Page Heading -->
+      <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+        <span class="d-none d-sm-inline-block" id="date"></span>
+      </div>
+
+       <!-- Content Row -->
+      <div class="row">
+
+        <!-- Vent Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Vent</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800" id="vent"></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-wind fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Humidite Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Humidité</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800" id="humidite"></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-tint fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Temperature Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Température</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="temperature"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Luminosite Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Luminosité</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800" id="luminosite"></div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-sun fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Batterie Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-danger shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">Batterie</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="batterie"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-battery-half fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Trappe Card -->
+        <div class="col-xl-3 col-md-6 mb-4">
+          <div class="card border-left-dark shadow h-100 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Trappe</div>
+                  <div class="row no-gutters align-items-center">
+                    <div class="col-auto">
+                      <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-door-open fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+	<%- include ('../partials/footer') -%>
+
+  <script>
+    setInterval(function() {
+      $.ajax({
+        "url": '<%= endpoint %>',
+        "success": function(data) {
+          $("#vent").html(data.vent + " km/h")
+          $("#humidite").html(data.humidite + "%")
+          $("#temperature").html(data.temperature + "°C")
+          $("#luminosite").html(data.luminosite + " Lux")
+          $("#batterie").html(data.batterie + "%")
+          $("#date").html("Dernière mise à jour le " + new Date(data.date).toLocaleString())
+          
+          if (data.trappe == 0)
+            $("#trappe").html("Fermée")
+          else
+            $("#trappe").html("Ouverte")
+        },
+        "error": function(error) {
+          console.log(error)
+        }
+      })
+    }, 2000)
+  </script>
+</body>
+
+</html>

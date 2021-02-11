@@ -1,0 +1,11 @@
+body {
+    background-color: #2a3d49;
+}
+
+.charts_container {
+    display : flex;
+    flex-direction : row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}

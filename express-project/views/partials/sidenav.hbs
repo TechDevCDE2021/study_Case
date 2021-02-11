@@ -1,0 +1,54 @@
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+            <div class="sb-sidenav-menu">
+                <div class="nav">
+                    <div class="sb-sidenav-menu-heading">TRAPPE</div>
+                    <a class="nav-link" id="door_state" href="index.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        {{#if model.isOpen}}Ouverte{{else}}Fermée{{/if}}
+                    </a>
+                    <div class="sb-sidenav-menu-heading">ACTIONS</div>
+                    <a class="nav-link" href="#" onclick="doorEvent()" aria-expanded="false" disabled>
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <span id="door">
+                            {{#if model.isOpen}}Fermeture Manuelle{{else}}Ouverture Manuelle{{/if}}</span>
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                        aria-expanded="false" aria-controls="collapsePages">
+                        <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                        Ouverture Automatique
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
+                        data-parent="#sidenavAccordion">
+                        <div class="card card-body" id="card-auto">
+                            <p>Conditions d'ouverture du volet</p>
+                            <form>
+                                <div class="form-group">
+                                    <label for="humBoundInput">Humidité de l'air (%)</label>
+                                    <input type="number" class="form-control" id="humBoundInput"
+                                        placeholder={{model.humBound}} min="0" max="100">
+                                </div>
+                                <button type="button" class="btn btn-outline-dark" onclick="autoMode()">Ok</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="sb-sidenav-menu-heading">Addons</div>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                        Charts
+                    </a>
+                    <a class="nav-link" href="tables.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
+                        Tables
+                    </a>
+                </div>
+            </div>
+            <div class="sb-sidenav-footer">
+                <div class="small">Logged in as:</div>
+                Start Bootstrap
+            </div>
+        </nav>
+    </div>
