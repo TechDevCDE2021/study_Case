@@ -7,7 +7,7 @@ a {
 
 body {
   background-image: url("../assets/images/back_1.jpg");
-  background-position-y: -80px;
+  background-position-y: -20px;
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed;
@@ -43,7 +43,6 @@ body {
   display : flex;
   flex-direction : row;
   justify-content: flex start;
-
   flex-wrap: wrap;
 }
 
@@ -57,8 +56,6 @@ body {
 .mainTitle {
   /* background-color: rgb(0, 0, 0); */
   color:rgb(223, 212, 212);
-  margin-left: 3em;
-  margin-right :3em;
   background-color:   #21313cc6;
 
 }
