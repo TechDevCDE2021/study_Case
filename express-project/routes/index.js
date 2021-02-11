@@ -4,7 +4,6 @@ const express = require('express');
 const router = express.Router();
 const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json()
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('index', {
@@ -25,13 +24,6 @@ router.post('/door', function (req, res, next) {
   model.isDownlinkSending = true;
   next()
 })
-
-// router.post('/app_state', jsonParser, function (req, res, next) {
-//   if (req.body.model != model) {
-//     next()
-//   };
-
-// })
 
 router.post('/auto', jsonParser, function (req, res, next) {
   model.isManual = false;

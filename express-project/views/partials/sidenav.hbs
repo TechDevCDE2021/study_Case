@@ -4,44 +4,51 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">VOLET</div>
-                    <a class="nav-link" id="door_state"></a>
+                    <a class="nav-link" href="charts.html">
+                        <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                        Dashboard
                     </a>
                     <div class="sb-sidenav-menu-heading">ACTIONS MANUELLES</div>
                     <a class="nav-link" href="#" onclick="doorEvent()" aria-expanded="false" disabled>
-                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        <div class="sb-nav-link-icon" id="icon-door-side"> {{#if model.isOpen}}
+                            <i class="fas fa-door-open"></i>
+                            {{else}}
+                            <i class="fas fa-door-closed"></i>
+                            {{/if}}
+                        </div>
                         <span id="door">
-                            {{#if model.isOpen}}Fermeture volet{{else}}Ouverture volet{{/if}}</span>
-                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            {{#if model.isOpen}}Fermer Trappe{{else}}Ouvrir Trappe{{/if}}</span>
+                        <div class="sb-sidenav-collapse-arrow"></div>
                     </a>
                     <div class="sb-sidenav-menu-heading">ACTIONS AUTOMATIQUE</div>
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
                         aria-expanded="false" aria-controls="collapsePages">
                         <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
-                        Parametrage Humidité
+                        Paramétrages
                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </a>
                     <div class="collapse" id="collapsePages" aria-labelledby="headingTwo"
                         data-parent="#sidenavAccordion">
                         <div class="card card-body" id="card-auto">
-                            <p>Conditions d'ouverture du volet</p>
+                            <p>Conditions d'ouverture</p>
                             <form>
                                 <div class="form-group">
                                     <label for="humBoundInput">Humidité de l'air (%)</label>
                                     <input type="number" class="form-control" id="humBoundInput"
                                         placeholder={{model.humBound}} min="0" max="100">
                                 </div>
-                                <button type="button" class="btn btn-outline-dark" onclick="autoMode()">Ok</button>
+                                <button type="button" class="btn btn-light text-center" onclick="autoMode()">Ok</button>
                             </form>
                         </div>
                     </div>
                     <div class="sb-sidenav-menu-heading">Addons</div>
-                    <a class="nav-link" href="charts.html">
+                    <a class="nav-link" onclick="onlyCharts()">
                         <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
                         Charts
                     </a>
-                    <a class="nav-link" href="tables.html">
+                    <a class="nav-link" onclick="onlyCards()">
                         <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                        Tables
+                        Cards
                     </a>
                 </div>
             </div>
