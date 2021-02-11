@@ -4,7 +4,7 @@ let CHARTS_WIDTH;
 let CHARTS_HEIGHT;
 if (screen.width < 720) {
   CHARTS_WIDTH = screen.width * 0.9;
-  CHARTS_HEIGHT = screen.width * 0.6;
+  CHARTS_HEIGHT = screen.width * 1.2;
 } else {
   CHARTS_WIDTH = 640;
   CHARTS_HEIGHT = 400;
