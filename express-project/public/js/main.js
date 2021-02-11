@@ -1,6 +1,6 @@
 const pageText = {
-  TOCLOSE: "Fermeture Manuelle",
-  TOOPEN: "Ouverture Manuelle",
+  TOCLOSE: "Fermeture volet",
+  TOOPEN: "Ouverture volet",
   CLOSE: "Fermée",
   OPEN: "Ouverte",
 }
@@ -30,11 +30,11 @@ const updateView = model => {
 }
 
 const updateCards = (model) => {
-  document.getElementById('wind').innerText = model.sensors.wind;
-  document.getElementById('hum_air').innerText = model.sensors.hum_air
-  document.getElementById('temperature').innerText = model.sensors.temperature
-  document.getElementById('hum_ground').innerText = model.sensors.hum_ground
-  document.getElementById('battery').innerText = model.sensors.battery
+  document.getElementById('wind').innerText = `${model.sensors.wind} km/h`;
+  document.getElementById('hum_air').innerText = `${model.sensors.hum_air} %` ;
+  document.getElementById('temperature').innerText = `${model.sensors.temperature}°C`; 
+  document.getElementById('hum_ground').innerText = `${model.sensors.hum_ground} %`
+  document.getElementById('battery').innerText = `${model.sensors.battery} %`;
 
 }
 
