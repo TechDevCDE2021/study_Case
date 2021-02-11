@@ -7,6 +7,11 @@ a {
 
 body {
   background-image: url("../assets/images/back_1.jpg");
+  background-position-y: -80px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  
 }
 
 .charts_container {
@@ -17,7 +22,12 @@ body {
 
 }
 .line, .gauge {
-  background-color: #21313c79;
+  background-color: #21313cc6;
+  margin-left:20px;
+  margin-right:20px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
 }
 
 #wind_alert {

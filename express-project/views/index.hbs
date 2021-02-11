@@ -36,120 +36,124 @@
                 <div class="cards-container">
 
                     <!-- Vent Card -->
-                    <div class="sensors-card">
-                        <div class="card border-left-primary shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Vent
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="wind">
-                                            {{model.sensors.wind}}km/h
-                                        </div>
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-info text-uppercase mb-1">Vent</div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="wind">
+                                        {{model.sensors.wind}} km/h
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-wind fa-2x text-gray-300"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-wind fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Humidite Card -->
-                    <div class="sensors-card">
-                        <div class="card border-left-success shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Humidité
-                                            air
-                                        </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_air">
-                                            {{model.sensors.hum_air}}%
-                                        </div>
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-primary text-uppercase mb-1">humidité air
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_air">
+                                        {{model.sensors.hum_air}}%
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-tint fa-2x text-gray-300"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-tint fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
+
                     <!-- Temperature Card -->
-                    <div class="sensors-card">
-                        <div class="card border-left-info shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Température
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
-                                                    id="temperature">{{model.sensors.temperature}}°C</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
-                                    </div>
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-danger text-uppercase mb-1">Temperature
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="temperature">
+                                        {{model.sensors.temperature}}°C</div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- humidité Card -->
-                    <div class="sensors-card">
-                        <div class="card border-left-warning shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                                            Humidité Sol</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_ground">
-                                            {{model.sensors.hum_ground}}%
-                                        </div>
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-success text-uppercase mb-1">Humidité sol
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_ground">
+                                        {{model.sensors.hum_ground}}%
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-tint fa-2x text-gray-300"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-tint fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Batterie Card -->
-                    <div class="sensors-card">
-                        <div class="card border-left-danger shadow h-100 py-2">
-                            <div class="card-body">
-                                <div class="row no-gutters align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Batterie
-                                        </div>
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col-auto">
-                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="battery">
-                                                    {{model.sensors.battery}}%
-                                                </div>
-                                            </div>
-                                        </div>
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-warning text-uppercase mb-1">Batterie
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="battery">
+                                        {{model.sensors.battery}}%
                                     </div>
-                                    <div class="col-auto">
-                                        <i class="fas fa-battery-half fa-2x text-gray-300"></i>
-                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <i class="fas fa-battery-half fa-2x text-gray-300"></i>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Trappe Card -->
-                    <div class="sensors-card">
+                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
+                        <div class="card-header text-xs font-weight-bold text-secondary text-uppercase mb-1">Trappe
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe">
+                                        {{#if model.isOpen}}Ouverte{{else}}Fermée{{/if}}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div id="icon-door">
+                                    {{#if model.isOpen}}
+                                    <i class="fas fa-door-open fa-2x text-gray-300"></i>
+                                    {{else}}
+                                    <i class="fas fa-door-closed fa-2x text-gray-300"></i>
+                                    {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{!-- <div class="sensors-card">
                         <div class="card border-left-dark shadow h-100 py-2">
                             <div class="card-body">
                                 <div class="row no-gutters align-items-center">
                                     <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Trappe</div>
+                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Trappe
+                                        </div>
                                         <div class="row no-gutters align-items-center">
                                             <div class="col-auto">
                                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe">
@@ -164,7 +168,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -172,9 +176,7 @@
             <div class="container-fluid">
                 <div class="charts_container">
                     {{#each charts}}
-                    <div class={{this.type}}>
-                        <div id={{this.name}}></div>
-                    </div>
+                    <div class={{this.type}} id={{this.name}}></div>>
                     {{/each}}
                 </div>
             </div>
