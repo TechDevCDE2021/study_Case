@@ -59,8 +59,8 @@ encodePayload = (payload) => {
         }
     } else {
         res.door = DoorState.auto;
-        res.humBound = model.humBound;
-        res.tempNound = model.tempBound;
+        res.humBound = Number(model.humBound);
+        res.tempBound = model.tempBound;
     }
     return res
 }

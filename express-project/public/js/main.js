@@ -38,24 +38,6 @@ const updateCards = (model) => {
 
 }
 
-// Poll
-// const doPoll = () => {
-//   axios.post('/app_state', {
-//       model: model
-//     })
-//     .then(function (response) {
-//       model = response.data
-//       updateView(model);
-//     })
-//     .catch(function (error) {
-//       console.log(error);
-//     })
-//     .then(function () {});
-//   setTimeout(doPoll, 60000);
-// }
-
-// doPoll();
-
 const doorEvent = () => {
   axios.post('/door')
     .then(function (response) {
@@ -72,7 +54,7 @@ const autoMode = () => {
   hum = document.getElementById("humBoundInput").value
   console.log(hum);
   axios.post('/auto', {
-    humBound: 70,
+    humBound: hum,
     tempBound: 50,
   })
     .then(function (response) {
@@ -88,29 +70,3 @@ const socket = io();
 socket.on('model', (msg) => {
   updateView(msg)
 })
-// update = () =>{
-//   socket.on('model', (msg) => {
-
-//     console.log('socket', msg)
-// }
-//   console.log(msg.isOpen)
-//   if (msg.isOpen) {
-//     document.getElementById('door').innerText = pageText.TOCLOSE;
-//   } else {
-//     document.getElementById('door').innerText = pageText.TOOPEN;
-//   }
-// });
-// // cette ligne pas besoin de la garder vivi
-// document.getElementById('door').onclick = () => {
-//   console.log('socket in door')
-//   socket.emit('door_manual', 1);
-// };
-
-// document.getElementById('auto').onclick = () => {
-//   console.log('socket in auto')
-//     socket.emit('door_auto', {
-//       humBound: 999999,
-//       tempBound: 50
-//     })
-// })
-
