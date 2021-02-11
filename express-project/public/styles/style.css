@@ -1,15 +1,12 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  color:white
-}
+
+
 
 a {
   color: #00B7FF;
 }
 
 body {
-  background-color: #2a3d49;
+  background-image: url("../assets/images/back_1.jpg");
 }
 
 .charts_container {
@@ -19,8 +16,30 @@ body {
   flex-wrap: wrap;
 
 }
+.line, .gauge {
+  background-color: #21313c79;
+}
 
 #wind_alert {
   color:#dc3545;
   visibility: hidden;
+}
+
+#card-auto{
+  background-color: #343a40;
+}
+
+.cards-container {
+  display : flex;
+  flex-direction : row;
+  justify-content: flex start;
+
+  flex-wrap: wrap;
+}
+
+.sensors-card{
+  width:300px;
+  margin-left:20px;
+  margin-right: 20px;
+  margin-bottom: 20px;
 }

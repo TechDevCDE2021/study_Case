@@ -8,6 +8,7 @@ module.exports = charts =
         },
         {
             name: 'line_temperature',
+            type: 'line',
             BaseUrl: 'https://charts.mongodb.com/charts-greenhouse-nvskp',
             ID: '72c052fa-75a6-43b1-a3a2-2ab8c7545c03'
         },

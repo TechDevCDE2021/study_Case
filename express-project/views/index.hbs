@@ -1,31 +1,190 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon" href="public/favicon" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="IoT Monitoring Dashboard" />
-  <link rel="stylesheet" href="styles/lib/bootstrap.min.css">
-  <title>{{ title }}</title>
-  <link rel='stylesheet' href='/styles/style.css' />
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="icon" href="public/assets/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="IoT Monitoring Dashboard" />
+    <meta name="Vivi Ben Clem" content="" />
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="/styles/lib/bootstrap.min.css" />
+    <link rel="stylesheet" href="/styles/lib/styles.css" />
+    <link rel="stylesheet" href='/styles/style.css' />
+    <script src="js/lib/all.min.js"></script>
 </head>
 
 <body>
-  {{> hero}}
-  <h1>{{ title }}</h1>
-  <p id="wind_alert" display="none">Vent Fort</p>
-  <button type="button" id="door" class="btn btn-primary" onclick="doorEvent()">
-    {{#if model.isOpen}}Fermer{{else}}Ouvrir{{/if}}</button>
-  <button type="button" id="auto" class="btn btn-info" onclick="autoMode()">Auto</button>
-  <div class="charts_container">
-    {{#each charts}}
-    <div id={{this.name}} class={{this.type}}></div>
-    {{/each}}
-  </div>
-  {{> footer}}
-  {{> js-lib}}
-  <script type="text/javascript" src="js/main.js"></script>
+    {{> navbar}}
+    {{> sidenav}}
+    <div id="layoutSidenav_content">
+        <main>
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                    <h1 class="h3 mb-0 text-gray-800">Tableau de bord</h1>
+                    <span class="d-none d-sm-inline-block" id="date"></span>
+                </div>
+
+                {{!-- Alerte vents forts --}}
+                <p id="wind_alert" display="none">Vent Fort</p>
+
+                <!-- Content Row -->
+                <div class="cards-container">
+
+                    <!-- Vent Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Vent
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="wind">
+                                            {{model.sensors.wind}}km/h
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-wind fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Humidite Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-success shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Humidité
+                                            air
+                                        </div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_air">
+                                            {{model.sensors.hum_air}}%
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-tint fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Temperature Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-info shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Température
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"
+                                                    id="temperature">{{model.sensors.temperature}}°C</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-thermometer-half fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- humidité Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-warning shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                            Humidité Sol</div>
+                                        <div class="h5 mb-0 font-weight-bold text-gray-800" id="hum_ground">
+                                            {{model.sensors.hum_ground}}%
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-tint fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Batterie Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-danger shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Batterie
+                                        </div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="battery">
+                                                    {{model.sensors.battery}}%
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-battery-half fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Trappe Card -->
+                    <div class="sensors-card">
+                        <div class="card border-left-dark shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col mr-2">
+                                        <div class="text-xs font-weight-bold text-dark text-uppercase mb-1">Trappe</div>
+                                        <div class="row no-gutters align-items-center">
+                                            <div class="col-auto">
+                                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe">
+                                                    {{#if model.isOpen}}Ouverte{{else}}Fermée{{/if}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-auto">
+                                        <i class="fas fa-door-open fa-2x text-gray-300"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="container-fluid">
+                <div class="charts_container">
+                    {{#each charts}}
+                    <div class={{this.type}}>
+                        <div id={{this.name}}></div>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </main>
+        {{> footer}}
+    </div>
+    </div>
+    {{> jslib}}
+    <script type="text/javascript" src="js/charts.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
 </body>
 
 </html>
