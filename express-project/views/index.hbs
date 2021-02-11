@@ -33,9 +33,36 @@
                 <!-- Content Row -->
                 <div class="cards-container justify-content-center" id="_cards-container">
 
-                    <!-- Vent Card -->
+
+                    <!-- Trappe Card -->
                     <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
-                        <div class="card-header text-xs font-weight-bold text-info text-uppercase mb-1">Vent</div>
+                        <div class="card-header text-xs font-weight-bold text-secondary text-uppercase mb-1">Trappe
+                        </div>
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe">
+                                        {{#if model.isOpen}}Ouverte{{else}}Fermée{{/if}}
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div id="icon-door">
+                                        {{#if model.isOpen}}
+                                        <i class="fas fa-door-open fa-2x text-gray-300"></i>
+                                        {{else}}
+                                        <i class="fas fa-door-closed fa-2x text-gray-300"></i>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Vent Card -->
+                    <div id="wind-card" class=" sensors-card card  bg-light mb-3 shadow h-100"
+                        style="max-width: 18rem;">
+                        <div id="wind-card-title"
+                            class="card-header text-xs font-weight-bold text-info text-uppercase mb-1">Vent</div>
                         <div class="card-body">
                             <div class="row no-gutters align-items-center">
                                 <div class="col mr-2">
@@ -122,31 +149,10 @@
                         </div>
                     </div>
 
-                    <!-- Trappe Card -->
-                    <div class=" sensors-card card  bg-light mb-3 shadow h-100" style="max-width: 18rem;">
-                        <div class="card-header text-xs font-weight-bold text-secondary text-uppercase mb-1">Trappe
-                        </div>
-                        <div class="card-body">
-                            <div class="row no-gutters align-items-center">
-                                <div class="col mr-2">
-                                    <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800" id="trappe">
-                                        {{#if model.isOpen}}Ouverte{{else}}Fermée{{/if}}
-                                    </div>
-                                </div>
-                                <div class="col-auto">
-                                    <div id="icon-door">
-                                        {{#if model.isOpen}}
-                                        <i class="fas fa-door-open fa-2x text-gray-300"></i>
-                                        {{else}}
-                                        <i class="fas fa-door-closed fa-2x text-gray-300"></i>
-                                        {{/if}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
             </div>
+
 
 
             <div class="container-fluid">

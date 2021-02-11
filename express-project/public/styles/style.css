@@ -57,6 +57,8 @@ body {
 .mainTitle {
   /* background-color: rgb(0, 0, 0); */
   color:rgb(223, 212, 212);
-  margin-top:6em;
-  font-size: 55px;
+  margin-left: 3em;
+  margin-right :3em;
+  background-color:   #21313cc6;
+
 }

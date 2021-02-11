@@ -1,13 +1,13 @@
-const DATA_AGE = 20;
+const DATA_AGE = 60;
 const BACKGROUND = 'transparent';
 let CHARTS_WIDTH;
 let CHARTS_HEIGHT;
-if(screen.width < 720) {
+if (screen.width < 720) {
   CHARTS_WIDTH = screen.width * 0.9;
-  CHARTS_HEIGHT = screen.width * 0.6;  
+  CHARTS_HEIGHT = screen.width * 0.6;
 } else {
   CHARTS_WIDTH = 640;
-  CHARTS_HEIGHT = 400; 
+  CHARTS_HEIGHT = 400;
 }
 
 
