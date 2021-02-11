@@ -13,10 +13,22 @@ const updateView = model => {
   if (model.sensors.wind > 20) {
     document.getElementById('door').innerText = pageText.TOOPEN;
     document.getElementById('door').disabled = true;
-    document.getElementById("wind_alert").style.visibility = "visible";
+    // document.getElementById("wind_alert").style.visibility = "visible";
+    if (document.getElementById("wind-card").classList.contains('bg-light')) {
+      document.getElementById("wind-card").classList.remove('bg-light')
+      document.getElementById("wind-card").classList.add('bg-danger')
+      document.getElementById("wind-card-title").classList.remove('text-info')
+      document.getElementById("wind-card-title").classList.add('text-gray')
+    }
   } else {
-    document.getElementById("wind_alert").style.visibility = "hidden";
+    // document.getElementById("wind_alert").style.visibility = "hidden";
     document.getElementById('door').disabled = false;
+    if (document.getElementById("wind-card").classList.contains('bg-danger')) {
+      document.getElementById("wind-card").classList.remove('bg-danger')
+      document.getElementById("wind-card").classList.add('bg-light')
+      document.getElementById("wind-card-title").classList.remove('text-gray')
+      document.getElementById("wind-card-title").classList.add('text-info')
+    }
     if (model.isOpen) {
       document.getElementById('door').innerText = pageText.TOCLOSE;
       document.getElementById('trappe').innerText = pageText.OPEN;

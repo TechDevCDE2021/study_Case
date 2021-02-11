@@ -8,10 +8,10 @@ module.exports = model = {
         sensors: {
                 auto_mode: 1,
                 door: 0,
-                hum_air: 0,
-                hum_ground: 0,
-                temperature: 0,
-                wind: 0,
+                hum_air: 45,
+                hum_ground: 78,
+                temperature: 21,
+                wind: 1,
                 battery: 0
         }
 }
