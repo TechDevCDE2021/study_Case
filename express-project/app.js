@@ -24,8 +24,6 @@ app.engine('hbs', hbs({
   layoutsDir: __dirname + '/views/',
   partialsDir: __dirname + '/views/partials/'
 }));
-// hbs.registerPartials(__dirname + '/views/partials');
-// app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 
@@ -67,25 +65,6 @@ io.on("connection", function (socket) {
   console.log("A user connected");
 });
 
-// io.on('connection', (socket) => {
-//   console.log('io in')
-//   io.emit('update', model);
-//   socket.on('door_manual', (msg) => {
-//       model.isManual = true;
-//       model.isOpen = !model.isOpen;
-//       model.isDownlinkSending = true;
-//       console.log(model.isOpen)
-//       io.emit('update', model);
-//   })
-//   socket.on('door_auto', (msg) => {
-//       model.isManual= false
-//       model.humBound = msg.humBound;
-//       model.tempBound = msg.tempBound;
-//       model.isDownlinkSending = true;
-//       console.log(model.isManual)
-//       io.emit('update', model);
-//   })
-// });
 
 
 

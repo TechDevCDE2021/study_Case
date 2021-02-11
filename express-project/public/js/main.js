@@ -19,12 +19,14 @@ const updateView = model => {
     document.getElementById('door').disabled = false;
     if (model.isOpen) {
       document.getElementById('door').innerText = pageText.TOCLOSE;
-      document.getElementById('door_state').innerText = pageText.OPEN;
       document.getElementById('trappe').innerText = pageText.OPEN;
+      document.getElementById('icon-door').innerHTML = `<i class="fas fa-door-open fa-2x text-gray-300"></i>`;
+      document.getElementById('icon-door-side').innerHTML = `<i class="fas fa-door-open"></i>`;
     } else {
       document.getElementById('door').innerText = pageText.TOOPEN;
-      document.getElementById('door_state').innerText = pageText.CLOSE;
       document.getElementById('trappe').innerText = pageText.CLOSE;
+      document.getElementById('icon-door').innerHTML = `<i class="fas fa-door-closed fa-2x text-gray-300"></i>`;
+      document.getElementById('icon-door-side').innerHTML = `<i class="fas fa-door-closed"></i>`;
     }
   }
 }
@@ -64,6 +66,15 @@ const autoMode = () => {
     .catch(function (error) {
       console.log(error);
     });
+}
+
+const onlyCharts = () => {
+
+
+}
+
+const onlyCards = () => {
+
 }
 
 const socket = io();

@@ -14,7 +14,7 @@ body {
   
 }
 
-.charts_container {
+.charts-container {
   display : flex;
   flex-direction : row;
   justify-content: center;
@@ -52,11 +52,4 @@ body {
   margin-left:20px;
   margin-right: 20px;
   margin-bottom: 20px;
-}
-
-.mainTitle {
-  display: flex;
-  /* background-color: red; */
-  color:white;
-  margin-left : 50px;
 }
