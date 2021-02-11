@@ -1,7 +1,14 @@
 const DATA_AGE = 20;
 const BACKGROUND = 'transparent';
-let CHARTS_WIDTH = 640;
-let CHARTS_HEIGHT = 400;
+let CHARTS_WIDTH;
+let CHARTS_HEIGHT;
+if(screen.width < 720) {
+  CHARTS_WIDTH = screen.width * 0.9;
+  CHARTS_HEIGHT = screen.width * 0.6;  
+} else {
+  CHARTS_WIDTH = 640;
+  CHARTS_HEIGHT = 400; 
+}
 
 
 const sdk = new ChartsEmbedSDK({
